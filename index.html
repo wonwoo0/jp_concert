@@ -64,6 +64,32 @@
         .slow-btn:hover {
             background: #e04e2b;
         }
+        .buttons {
+            display: flex;
+            flex-direction: column; /* 手機直向時按鈕垂直排列 */
+            align-items: flex-end; /* 對齊右側 */
+        }
+        @media (max-width: 768px) { /* 手機直向模式（寬度小於 768px） */
+            .sentence {
+                flex-direction: column; /* 手機直向時文字同按鈕垂直排列 */
+                align-items: flex-start; /* 文字左對齊 */
+            }
+            .text {
+                margin-bottom: 10px; /* 文字同按鈕之間增加間距 */
+                width: 100%; /* 文字佔滿寬度 */
+            }
+            .buttons {
+                flex-direction: row; /* 按鈕水平排列 */
+                align-items: center; /* 按鈕垂直居中 */
+                width: 100%; /* 按鈕容器佔滿寬度 */
+                justify-content: flex-end; /* 按鈕靠右對齊 */
+            }
+            .play-btn, .slow-btn {
+                margin-left: 10px; /* 按鈕之間保持間距 */
+                margin-bottom: 0; /* 移除垂直間距 */
+                width: auto; /* 按鈕自適應寬度 */
+            }
+        }
         .pagination {
             margin-top: 20px;
         }
@@ -216,7 +242,7 @@
                         <div class="zh">${sentence.zh}</div>
                         <div class="kana">${sentence.kana}</div>
                     </div>
-                    <div>
+                    <div class="buttons">
                         <button class="play-btn" onclick="playAudio('${sentence.audio}')">正常播放</button>
                         <button class="slow-btn" onclick="playAudio('${sentence.slowAudio}')">慢速播放</button>
                     </div>
