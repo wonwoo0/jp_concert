@@ -39,10 +39,23 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin: 20px 10px;
+            margin: 10px;
         }
         .play-btn:hover {
             background: #0056b3;
+        }
+        .slow-btn {
+            padding: 15px 40px;
+            font-size: 20px;
+            background: #ff5733;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .slow-btn:hover {
+            background: #e04e2b;
         }
         .next-btn {
             padding: 15px 40px;
@@ -52,7 +65,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin: 20px 10px;
+            margin: 10px;
         }
         .next-btn:hover {
             background: #218838;
@@ -64,7 +77,8 @@
         <div id="zh-text" class="zh"></div>
         <div id="jp-text" class="jp"></div>
         <div id="kana-text" class="kana"></div>
-        <button class="play-btn" onclick="playCurrent()">播放音訊</button>
+        <button class="play-btn" onclick="playCurrent('normal')">播放音訊</button>
+        <button class="slow-btn" onclick="playCurrent('slow')">慢速朗讀</button>
         <button class="next-btn" onclick="showRandomSentence()">隨機下一句</button>
     </div>
 
@@ -173,6 +187,7 @@
             { jp: "コンサートってやっぱり最高！", kana: "こんさーとって やっぱり さいこう！", zh: "演唱會果然是最棒的！", audio: "audio/sentence_100.mp3" }
         ];
 
+        let currentSentence = null;
         let currentAudio = null;
 
         function playAudio(url) {
@@ -183,15 +198,17 @@
 
         function showRandomSentence() {
             const randomIndex = Math.floor(Math.random() * sentences.length);
-            const sentence = sentences[randomIndex];
-            document.getElementById("zh-text").textContent = sentence.zh;
-            document.getElementById("jp-text").textContent = sentence.jp;
-            document.getElementById("kana-text").textContent = sentence.kana;
-            currentAudio = new Audio(sentence.audio); // 預載音訊
+            currentSentence = sentences[randomIndex];
+            document.getElementById("zh-text").textContent = currentSentence.zh;
+            document.getElementById("jp-text").textContent = currentSentence.jp;
+            document.getElementById("kana-text").textContent = currentSentence.kana;
         }
 
-        function playCurrent() {
-            if (currentAudio) currentAudio.play().catch(error => console.log("播放失敗:", error));
+        function playCurrent(speed) {
+            if (currentSentence) {
+                const url = speed === "slow" ? currentSentence.slowAudio : currentSentence.audio;
+                playAudio(url);
+            }
         }
 
         // 頁面載入時顯示第一句
